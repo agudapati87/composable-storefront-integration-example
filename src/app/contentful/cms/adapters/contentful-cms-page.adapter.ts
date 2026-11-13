@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 
 import {
+  AuthService,
   CMS_PAGE_NORMALIZER,
   CmsPageAdapter,
   CmsStructureModel,
@@ -10,10 +11,11 @@ import {
   PageContext,
   PageType,
   SMART_EDIT_CONTEXT,
+  User,
 } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 
-import { Observable, combineLatest, switchMap } from 'rxjs';
+import { Observable, combineLatest, of, switchMap } from 'rxjs';
 
 import { RestrictionsService } from '../../core/services/contentful-restrictions.service';
 import { ContentService } from '../../core/services/contentful.service';
@@ -43,18 +45,29 @@ export class ContentfulCmsPageAdapter implements CmsPageAdapter {
     protected userAccount: UserAccountFacade,
   ) {}
 
+  protected authService = inject(AuthService);
+
   /**
    * @override returns the Contentful CMS page data for the given context and converts
    * the data by any configured `CMS_PAGE_NORMALIZER`.
    */
   load(pageContext: PageContext): Observable<CmsStructureModel> {
     const params = this.getPagesRequestParams(pageContext);
-    return combineLatest([this.languageService.getActive(), this.userAccount.get()]).pipe(
+    return combineLatest([this.languageService.getActive(), this.getUser()]).pipe(
       switchMap(([language, user]) => {
         this.restrictionService.setUserPermissions(user);
         return this.contentService.getPage(params, language).pipe(this.converter.pipeable(CMS_PAGE_NORMALIZER));
       }),
     );
+  }
+
+  /**
+   * The logged-in user, for restriction tags. Anonymous visitors get `undefined` straight away:
+   * `UserAccountFacade` is a lazy facade, and calling it would download the user-account chunk
+   * before the page request starts (a waterfall on the critical rendering path).
+   */
+  protected getUser(): Observable<User | undefined> {
+    return this.authService.isUserLoggedIn().pipe(switchMap((loggedIn) => (loggedIn ? this.userAccount.get() : of(undefined))));
   }
 
   /**

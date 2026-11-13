@@ -50,25 +50,25 @@ export class ContentfulCmsPageNormalizer implements Converter<Entry<PageSkeleton
   protected normalizePageData(source: Entry<PageSkeleton, undefined, string>, target: CmsStructureModel): void {
     const page: Page = {};
 
-    if (source.fields.internalName) {
+    if (source?.fields?.internalName) {
       page.name = source.fields.internalName;
     }
-    if (source.fields.slug) {
+    if (source?.fields?.slug) {
       page.label = `/${source.fields.slug}`;
     }
-    if (source.fields.template) {
+    if (source?.fields?.template) {
       page.template = source.fields.template;
     }
     if (source.sys.id) {
       page.pageId = source.sys.id;
     }
-    if (source.fields.title) {
+    if (source?.fields?.title) {
       page.title = source.fields.title;
     }
-    if (source.fields.description) {
+    if (source?.fields?.description) {
       page.description = source.fields.description;
     }
-    if (source.fields.type) {
+    if (source?.fields?.type) {
       page.type = source.fields.type;
     }
 

@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ConverterService, LanguageService, PageContext, PageType } from '@spartacus/core';
+import { AuthService, ConverterService, LanguageService, PageContext, PageType, User } from '@spartacus/core';
 import { UserAccountFacade } from '@spartacus/user/account/root';
 
 import { Entry } from 'contentful';
@@ -52,6 +52,7 @@ describe('ContentfulCmsPageAdapter', () => {
   let mockLanguageService: jasmine.SpyObj<LanguageService>;
   let mockRestrictionsService: jasmine.SpyObj<RestrictionsService>;
   let mockUserAccountService: jasmine.SpyObj<UserAccountFacade>;
+  let mockAuthService: jasmine.SpyObj<AuthService>;
   let converterService: ConverterService;
 
   beforeEach(() => {
@@ -60,6 +61,8 @@ describe('ContentfulCmsPageAdapter', () => {
     mockRestrictionsService = jasmine.createSpyObj('RestrictionsService', ['setUserPermissions']);
     mockUserAccountService = jasmine.createSpyObj('UserAccountFacade', ['get']);
     mockUserAccountService.get.and.returnValue(of(undefined));
+    mockAuthService = jasmine.createSpyObj('AuthService', ['isUserLoggedIn']);
+    mockAuthService.isUserLoggedIn.and.returnValue(of(false));
 
     TestBed.configureTestingModule({
       providers: [
@@ -68,6 +71,7 @@ describe('ContentfulCmsPageAdapter', () => {
         { provide: LanguageService, useValue: mockLanguageService },
         { provide: RestrictionsService, useValue: mockRestrictionsService },
         { provide: UserAccountFacade, useValue: mockUserAccountService },
+        { provide: AuthService, useValue: mockAuthService },
       ],
     });
 
@@ -132,6 +136,26 @@ describe('ContentfulCmsPageAdapter', () => {
     it('should return empty params for undefined context', (done) => {
       adapter.load(undefinedPageContext).subscribe(() => {
         expect(mockContentService.getPage).toHaveBeenCalledWith({}, 'en');
+        done();
+      });
+    });
+
+    it('should not load the user account for anonymous users', (done) => {
+      adapter.load(homepagePageContext).subscribe(() => {
+        expect(mockUserAccountService.get).not.toHaveBeenCalled();
+        expect(mockRestrictionsService.setUserPermissions).toHaveBeenCalledWith(undefined);
+        done();
+      });
+    });
+
+    it('should pass the logged-in user to the restrictions service', (done) => {
+      const user: User = { uid: 'jane@example.com', roles: ['b2bcustomergroup'] };
+      mockAuthService.isUserLoggedIn.and.returnValue(of(true));
+      mockUserAccountService.get.and.returnValue(of(user));
+
+      adapter.load(homepagePageContext).subscribe(() => {
+        expect(mockUserAccountService.get).toHaveBeenCalled();
+        expect(mockRestrictionsService.setUserPermissions).toHaveBeenCalledWith(user);
         done();
       });
     });

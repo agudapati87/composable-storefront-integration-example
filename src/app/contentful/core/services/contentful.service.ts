@@ -12,6 +12,8 @@ import { ContentfulCmsPageRequest } from '../../cms/adapters/contentful-cms-page
 import { ContentfulConfig } from '../../root/config/contentful-config';
 import { defaultContentfulConfig } from '../../root/config/default-contentful-config';
 import { ComponentSkeleton, PageSkeleton } from '../content-types';
+import { toContentfulLocale } from '../helpers';
+import { contentfulSimpleRequestAdapter } from './contentful-simple-request.adapter';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +47,8 @@ export class ContentService {
       environment: this.config.contentful?.environment ?? defaultContentfulConfig.contentful?.environment ?? '',
       accessToken: isPreview ? previewAccessToken : accessToken,
       host: isPreview ? previewUrl : deliveryApiUrl,
+      // Delivery: CORS-simple GETs (token in the query, no custom headers), no preflight per request.
+      adapter: isPreview ? undefined : contentfulSimpleRequestAdapter(accessToken),
     });
   }
 
@@ -59,6 +63,10 @@ export class ContentService {
     return slug;
   }
 
+  private transformLocale(locale?: string): string | undefined {
+    return toContentfulLocale(this.config.contentful?.localeMapping, locale);
+  }
+
   getPage(req: ContentfulCmsPageRequest, locale?: string): Observable<Entry<PageSkeleton, undefined, string> | null> {
     if (!req.pageSlug) {
       this.logger.warn(`WARNING: Page slug is empty. Cannot fetch page.`);
@@ -67,7 +75,7 @@ export class ContentService {
 
     const slug = this.transformSlug(req.pageSlug);
 
-    return from(this.client.getEntries<PageSkeleton>({ content_type: 'cmsPage', 'fields.slug': slug, include: 10, locale })).pipe(
+    return from(this.client.getEntries<PageSkeleton>({ content_type: 'cmsPage', 'fields.slug': slug, include: 10, locale: this.transformLocale(locale) })).pipe(
       map((pages) => {
         if (pages.total === 0) {
           this.logger.warn(`WARNING: No page found for slug "${slug}".`);
@@ -80,6 +88,6 @@ export class ContentService {
   }
 
   getComponents(req: ContentfulCmsComponentRequest, locale?: string) {
-    return from(this.client.getEntries<ComponentSkeleton>({ 'sys.id[in]': req.componentIds, include: 10, locale }));
+    return from(this.client.getEntries<ComponentSkeleton>({ 'sys.id[in]': req.componentIds, include: 10, locale: this.transformLocale(locale) }));
   }
 }

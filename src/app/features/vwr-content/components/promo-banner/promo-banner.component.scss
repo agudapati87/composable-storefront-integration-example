@@ -1,0 +1,133 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: block;
+  padding: 0 var(--vwr-gutter);
+}
+
+.promo {
+  display: grid;
+  gap: var(--vwr-space-4);
+  max-width: var(--vwr-content-max);
+  margin: 0 auto;
+}
+
+.promo__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--vwr-space-3);
+}
+
+.promo__headline {
+  margin: 0;
+  font-family: var(--vwr-font-heading);
+  font-size: clamp(1.75rem, 1.3rem + 1.5vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.promo__text {
+  margin: 0;
+  max-width: 48rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.promo__media ::ng-deep img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// Inset variants: a colored box with a small rounded image beside the text.
+.promo--navy-inset,
+.promo--gray-inset {
+  padding: var(--vwr-space-5) var(--vwr-space-4);
+
+  .promo__media {
+    width: 100%;
+    max-width: 16.25rem; // 260 px, the source image width
+    aspect-ratio: 260 / 190;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+}
+
+.promo--navy-inset,
+.promo--navy-split .promo__content {
+  background: var(--vwr-color-navy);
+  color: var(--vwr-color-white);
+}
+
+.promo--gray-inset {
+  background: var(--vwr-color-stone);
+  color: var(--vwr-color-navy);
+}
+
+// Split variant: a large image with a navy panel; the panel overlaps the image from 992 px.
+.promo--navy-split {
+  gap: 0;
+
+  .promo__media {
+    aspect-ratio: 955 / 590;
+    border-radius: 4px 4px 0 0;
+    overflow: hidden;
+  }
+
+  .promo__content {
+    padding: var(--vwr-space-5) var(--vwr-space-4);
+    border-radius: 0 0 4px 4px;
+  }
+}
+
+@include bp.up(md) {
+  .promo--navy-inset,
+  .promo--gray-inset {
+    grid-template-columns: 16.25rem 1fr;
+    align-items: start;
+    column-gap: var(--vwr-space-5);
+    padding: var(--vwr-space-5);
+  }
+}
+
+@include bp.up(lg) {
+  .promo--navy-inset,
+  .promo--gray-inset {
+    column-gap: var(--vwr-space-6);
+    padding: var(--vwr-space-5) var(--vwr-space-7);
+  }
+}
+
+@include bp.up(lg) {
+  .promo--navy-split {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+
+    .promo__media {
+      grid-column: 1 / 2;
+      grid-row: 1;
+      width: calc(100% + 5rem);
+      aspect-ratio: auto;
+      height: 26rem;
+      border-radius: 4px;
+    }
+
+    .promo__content {
+      position: relative;
+      grid-column: 2 / 3;
+      grid-row: 1;
+      justify-content: center;
+      min-height: 25rem;
+      margin-left: -2rem;
+      padding: var(--vwr-space-6) var(--vwr-space-7);
+      border-radius: 4px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.25);
+    }
+
+    .promo__headline {
+      font-size: 2.5rem;
+    }
+  }
+}

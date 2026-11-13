@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.rich-text__title {
+  margin: 0 0 var(--vwr-space-4);
+  color: var(--vwr-color-navy);
+  font-family: var(--vwr-font-heading);
+  font-size: clamp(1.75rem, 1.3rem + 1.6vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.rich-text__content {
+  ::ng-deep p {
+    margin: 0 0 var(--vwr-space-3);
+  }
+
+  ::ng-deep p:last-child {
+    margin-bottom: 0;
+  }
+
+  ::ng-deep a {
+    color: var(--vwr-color-link);
+  }
+}

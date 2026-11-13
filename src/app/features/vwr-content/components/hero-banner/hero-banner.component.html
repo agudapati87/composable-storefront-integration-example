@@ -1,0 +1,32 @@
+@let banner = view()?.banner;
+@if (banner) {
+  <div #hero class="hero" [class.hero--pending]="view()?.pending">
+    <div class="hero__content">
+      <h1 class="hero__headline"><app-trademark-text [text]="banner.headline" /></h1>
+      @if (banner.text) {
+        <p class="hero__text"><app-trademark-text [text]="banner.text" /></p>
+      }
+      @if (banner.cta; as cta) {
+        <app-cta-link [link]="cta.link" [label]="cta.label" />
+      }
+    </div>
+    @if (banner.media) {
+      <div class="hero__visual">
+        <cx-media
+          class="hero__media"
+          [container]="banner.media"
+          [loading]="loading"
+          [fetchPriority]="fetchPriority"
+          sizesForImgElement="(min-width: 992px) 60vw, 100vw"
+        ></cx-media>
+        <!-- Decorative swoosh over the image's left edge, as on vwr.com. -->
+        <svg class="hero__swoosh" viewBox="0 0 200 400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+          <path class="hero__swoosh-mask" d="M0 0 H150 C60 120 120 280 30 400 H0 Z" />
+          <path class="hero__swoosh-line hero__swoosh-line--1" d="M160 0 C70 120 130 280 40 400" />
+          <path class="hero__swoosh-line hero__swoosh-line--2" d="M172 0 C82 120 142 280 52 400" />
+          <path class="hero__swoosh-line hero__swoosh-line--3" d="M184 0 C94 120 154 280 64 400" />
+        </svg>
+      </div>
+    }
+  </div>
+}

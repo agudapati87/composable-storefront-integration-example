@@ -17,6 +17,10 @@ export abstract class ContentfulConfig {
     slugMapping?: {
       [key: string]: string;
     };
+    /** Maps Spartacus language isocodes to Contentful locale codes (e.g. `en` -> `en-US`); unmapped codes are sent as is. */
+    localeMapping?: {
+      [isocode: string]: string;
+    };
   };
 }
 

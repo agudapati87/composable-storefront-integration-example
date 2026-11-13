@@ -17,6 +17,7 @@ import {
 import { take } from 'rxjs/operators';
 
 import { ContentfulConfig } from '../../root/config/contentful-config';
+import { toContentfulLocale } from '../helpers';
 import { ContentfulAngularService } from './contentful-angular.service';
 
 @Injectable({
@@ -37,7 +38,7 @@ export class ContentfulLivePreviewService {
   ) {
     this.languageService.getActive().subscribe((language) =>
       contentfulAngularService.init({
-        locale: language,
+        locale: toContentfulLocale(this.config.contentful?.localeMapping, language) ?? language,
         enableInspectorMode: true,
         enableLiveUpdates: true,
         debugMode: true,

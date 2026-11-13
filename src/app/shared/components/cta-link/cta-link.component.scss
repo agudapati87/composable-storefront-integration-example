@@ -1,0 +1,59 @@
+:host {
+  display: inline-block;
+}
+
+// Navy pill, square-ish on the left and round on the right, with a light-blue chevron disc.
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vwr-space-2);
+  min-height: 2.75rem; // 44 px touch target
+  padding: var(--vwr-space-1) var(--vwr-space-2) var(--vwr-space-1) var(--vwr-space-3);
+  border-radius: 4px 999px 999px 4px;
+  background: var(--vwr-color-navy);
+  color: var(--vwr-color-white);
+  font-family: var(--vwr-font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+
+  &:hover {
+    color: var(--vwr-color-white);
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--vwr-color-focus);
+    outline-offset: 2px;
+  }
+}
+
+.cta--inverse {
+  background: var(--vwr-color-white);
+  color: var(--vwr-color-navy);
+
+  &:hover {
+    color: var(--vwr-color-navy);
+  }
+}
+
+.cta__icon {
+  flex: none;
+  width: 1.5rem;
+  height: 1.5rem;
+
+  circle {
+    fill: var(--vwr-color-sky);
+  }
+
+  path {
+    fill: none;
+    stroke: var(--vwr-color-navy);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}

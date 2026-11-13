@@ -1,0 +1,188 @@
+// Header, as on vwr.com: white, two rows on desktop
+//   [logo] [search ............] [sign in]
+//   [navigation ...........] [Order Entry] [cart]
+// and on mobile: [menu] [logo] [cart] / [search]. Slot order comes from layout.config.ts; the
+// grid places them, so DOM (and tab) order stays logo, search, sign in, links, cart, navigation.
+
+header {
+  background: var(--vwr-color-white);
+  border-bottom: 1px solid var(--vwr-color-border);
+
+  @include media-breakpoint-up(lg) {
+    background: var(--vwr-color-white);
+  }
+
+  .header {
+    display: grid;
+    // Mobile: one row; the search box collapses to an icon (Spartacus search-box-v2).
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-areas: 'pre logo search cart';
+    align-items: center;
+    column-gap: var(--vwr-space-3);
+    max-width: none;
+    padding: var(--vwr-space-2) var(--vwr-gutter);
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: auto minmax(0, 1fr) auto auto;
+      grid-template-areas:
+        'logo search login login'
+        'nav nav links cart';
+      column-gap: var(--vwr-space-5);
+      padding: var(--vwr-space-2) var(--vwr-gutter) 0;
+    }
+  }
+
+  .PreHeader {
+    grid-area: pre;
+  }
+
+  .SiteLogo {
+    grid-area: logo;
+    width: 100%;
+    max-width: 11rem;
+
+    @include media-breakpoint-up(lg) {
+      max-width: 13.25rem;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  .SearchBox {
+    grid-area: search;
+    justify-self: end;
+    margin: 0;
+
+    @include media-breakpoint-up(lg) {
+      width: 100%;
+      max-width: 27.5rem;
+    }
+  }
+
+  .SiteLogin {
+    grid-area: login;
+    justify-self: end;
+    padding: 0;
+    font-size: 0.875rem;
+
+    a {
+      color: var(--vwr-color-link);
+    }
+  }
+
+  .SiteLinks {
+    grid-area: links;
+    justify-self: end;
+    // Spartacus sets the site links to small, gray, semi-bold text.
+    color: var(--vwr-color-link);
+    font-size: 1.125rem;
+    font-weight: 400;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .MiniCart {
+    grid-area: cart;
+    justify-self: end;
+
+    @include media-breakpoint-up(lg) {
+      padding-inline-start: var(--vwr-space-4);
+      border-inline-start: 1px solid var(--vwr-color-border);
+    }
+  }
+
+  .NavigationBar {
+    grid-area: nav;
+    min-height: 0;
+    background: transparent;
+  }
+
+  cx-mini-cart a {
+    display: flex;
+    align-items: center;
+    gap: var(--vwr-space-1);
+    min-width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0 var(--vwr-space-2);
+    background: transparent;
+    color: var(--vwr-color-link);
+    font-size: 1.125rem;
+
+    .count {
+      position: static;
+      background: transparent;
+      color: inherit;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+  }
+}
+
+// Desktop navigation: blue, bold, sentence case on white (Spartacus: white caps on dark).
+@include media-breakpoint-up(lg) {
+  header cx-category-navigation cx-navigation-ui.flyout {
+    background: transparent;
+
+    > nav > ul > li {
+      padding-inline: 0 var(--vwr-space-6);
+
+      > button,
+      > cx-generic-link a {
+        padding: var(--vwr-space-3) 0;
+        color: var(--vwr-color-link);
+        font-family: var(--vwr-font-heading);
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: none;
+      }
+
+      // Spartacus' nav is built for a dark bar: hover turns headings white (with a white outline on
+      // buttons), which hides them on our white header. Keep them blue and underline instead.
+      > button {
+        margin-block: 0; // no gap between heading and flyout, so the hover isn't lost on the way down
+      }
+
+      > button:hover,
+      > cx-generic-link:hover,
+      > cx-generic-link a:hover {
+        color: var(--vwr-color-navy);
+        outline: 0;
+        text-decoration: underline;
+      }
+    }
+
+    // Flyout panel
+    .wrapper {
+      border: 1px solid var(--vwr-color-border);
+      background: var(--vwr-color-white);
+      color: var(--vwr-color-text);
+      box-shadow: 0 6px 16px rgb(0 0 0 / 0.12);
+    }
+
+    .wrapper a {
+      color: var(--vwr-color-link);
+
+      &:hover {
+        color: var(--vwr-color-navy);
+        text-decoration: underline;
+      }
+    }
+
+    .wrapper button:hover,
+    .wrapper span:hover {
+      color: var(--vwr-color-text);
+      outline: 0;
+    }
+  }
+}

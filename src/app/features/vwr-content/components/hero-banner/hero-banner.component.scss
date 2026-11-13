@@ -1,0 +1,112 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: block;
+}
+
+// Mobile first: text, then the image. From 992 px: text left (40%), image right (60%).
+.hero {
+  display: grid;
+  gap: var(--vwr-space-4);
+}
+
+// While the personalized variant is selected: the baseline keeps its space (no layout shift) but
+// is invisible, also to assistive technology, so it never flashes before a variant.
+.hero--pending {
+  visibility: hidden;
+}
+
+.hero__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--vwr-space-3);
+  padding: var(--vwr-space-5) var(--vwr-gutter) 0;
+}
+
+.hero__headline {
+  margin: 0;
+  color: var(--vwr-color-navy);
+  font-family: var(--vwr-font-heading);
+  font-size: clamp(2rem, 1.4rem + 2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.hero__text {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--vwr-color-text);
+  font-size: clamp(1.125rem, 1rem + 0.4vw, 1.375rem);
+  line-height: 1.5;
+}
+
+.hero__visual {
+  position: relative;
+  // Reserve the image's space before it loads (no layout shift).
+  aspect-ratio: 1920 / 760;
+  overflow: hidden;
+}
+
+.hero__media,
+.hero__media ::ng-deep img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__media ::ng-deep img {
+  object-fit: cover;
+  object-position: 60% center;
+}
+
+.hero__swoosh {
+  display: none;
+}
+
+@include bp.up(lg) {
+  .hero {
+    grid-template-columns: 2fr 3fr;
+    align-items: center;
+    gap: 0;
+  }
+
+  .hero__content {
+    padding: var(--vwr-space-5) var(--vwr-space-5) var(--vwr-space-5) var(--vwr-gutter-wide);
+  }
+
+  .hero__visual {
+    aspect-ratio: auto;
+    height: 25rem;
+  }
+
+  .hero__swoosh {
+    display: block;
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 13%;
+    height: 100%;
+  }
+
+  .hero__swoosh-mask {
+    fill: var(--vwr-color-white);
+  }
+
+  .hero__swoosh-line {
+    fill: none;
+    stroke-width: 2;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .hero__swoosh-line--1 {
+    stroke: var(--vwr-color-teal);
+  }
+
+  .hero__swoosh-line--2 {
+    stroke: var(--vwr-color-green);
+  }
+
+  .hero__swoosh-line--3 {
+    stroke: var(--vwr-color-sky);
+  }
+}

@@ -1,0 +1,84 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: block;
+  padding: 0 var(--vwr-gutter);
+}
+
+.teasers {
+  max-width: var(--vwr-content-max);
+  margin: 0 auto;
+}
+
+.teasers__headline {
+  margin: 0 0 var(--vwr-space-4);
+  color: var(--vwr-color-navy);
+  font-family: var(--vwr-font-heading);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 700;
+}
+
+// 2 columns on phones, 3 on tablets, 5 from 992 px (as on vwr.com).
+.teasers__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--vwr-space-4) var(--vwr-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@include bp.up(sm) {
+  .teasers__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@include bp.up(lg) {
+  .teasers__list {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--vwr-space-4);
+  }
+}
+
+.teaser {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vwr-space-3);
+  height: 100%;
+  color: var(--vwr-color-link);
+  text-decoration: none;
+
+  &:hover .teaser__title {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--vwr-color-focus);
+    outline-offset: 4px;
+  }
+}
+
+.teaser__media {
+  display: block;
+  aspect-ratio: 400 / 495;
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--vwr-color-stone);
+
+  ::ng-deep img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.teaser__title {
+  margin: 0;
+  color: inherit;
+  font-family: var(--vwr-font-body);
+  font-size: clamp(1.125rem, 0.9rem + 0.8vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.35;
+}

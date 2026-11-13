@@ -1,0 +1,58 @@
+// VWR design tokens, measured on vwr.com (2026-10-27). Components use the --vwr-* properties;
+// the --cx-* ones re-theme Spartacus' own components.
+//
+// Fonts: vwr.com uses Averta, a licensed font that is not bundled here. Headings fall back to
+// Avenir Next (macOS/iOS) or Segoe UI, the closest system fonts; no web-font request is made.
+// Add Averta (self-hosted) here if Avantor provides the font files.
+:root {
+  --vwr-color-navy: #001551;
+  --vwr-color-link: #0a5fbd; // 5.9:1 on white
+  --vwr-color-text: #333333;
+  --vwr-color-muted: #555555;
+  --vwr-color-white: #ffffff;
+  --vwr-color-sky: #63c7f2; // chevron discs
+  --vwr-color-teal: #19b5ad; // logo / hero swoosh
+  --vwr-color-green: #0cc56e;
+  --vwr-color-stone: #e9e9e4; // gray panels
+  --vwr-color-border: #d9d9d9;
+  --vwr-color-footer: #f7f7f7;
+  // Focus ring: 3:1 or more against white (3.9:1) and navy (3.6:1).
+  --vwr-color-focus: #2f80ed;
+
+  --vwr-font-body: Arial, Helvetica, sans-serif;
+  --vwr-font-heading: Averta, 'Avenir Next', 'Segoe UI', Arial, sans-serif;
+
+  --vwr-space-1: 0.25rem;
+  --vwr-space-2: 0.5rem;
+  --vwr-space-3: 1rem;
+  --vwr-space-4: 1.5rem;
+  --vwr-space-5: 2.25rem;
+  --vwr-space-6: 3rem;
+  --vwr-space-7: 6.5rem;
+
+  --vwr-gutter: 1rem;
+  --vwr-gutter-wide: 3.75rem;
+  --vwr-content-max: 85.5rem; // 1368 px: 1440 px minus 36 px gutters
+
+  // Spartacus theme
+  --cx-color-primary: var(--vwr-color-navy);
+  --cx-color-primary-accent: #0a2a7a;
+  --cx-color-secondary: var(--vwr-color-muted);
+  --cx-color-text: var(--vwr-color-text);
+  --cx-color-dark: var(--vwr-color-navy);
+  --cx-color-light: var(--vwr-color-stone);
+  --cx-color-background: var(--vwr-color-white);
+  --cx-color-visual-focus: var(--vwr-color-focus);
+  --cx-font-family: var(--vwr-font-body);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --vwr-gutter: 2.25rem;
+  }
+}
+
+body {
+  font-family: var(--vwr-font-body);
+  color: var(--vwr-color-text);
+}

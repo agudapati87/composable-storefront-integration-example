@@ -1,0 +1,8 @@
+@if (component.data$ | async; as data) {
+  @if (data.title?.trim()) {
+    <h2 class="rich-text__title"><app-trademark-text [text]="data.title!.trim()" /></h2>
+  }
+  @if (data.content) {
+    <div class="rich-text__content" [innerHTML]="data.content | cxSupplementHashAnchors"></div>
+  }
+}

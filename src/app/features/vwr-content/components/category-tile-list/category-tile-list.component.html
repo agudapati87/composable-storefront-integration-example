@@ -1,0 +1,35 @@
+@if (list$ | async; as list) {
+  @if (list.tiles.length) {
+    <div class="tiles">
+      @if (list.headline) {
+        <h2 class="tiles__headline"><app-trademark-text [text]="list.headline" /></h2>
+      }
+      <ul class="tiles__list">
+        @for (tile of list.tiles; track tile.key) {
+          <li>
+            <a class="tile" [routerLink]="{ cxRoute: 'category', params: { code: tile.categoryCode } } | cxUrl">
+              @if (tile.media) {
+                <cx-media
+                  class="tile__media"
+                  [container]="tile.media"
+                  alt=""
+                  sizesForImgElement="(min-width: 992px) 18vw, (min-width: 576px) 30vw, 45vw"
+                ></cx-media>
+              }
+              <h3 class="tile__title"><app-trademark-text [text]="tile.title" /></h3>
+              @if (tile.ctaLabel) {
+                <span class="tile__cta" aria-hidden="true">
+                  {{ tile.ctaLabel }}
+                  <svg class="tile__cta-icon" viewBox="0 0 24 24" focusable="false">
+                    <circle cx="12" cy="12" r="12" />
+                    <path d="M10 7l5 5-5 5" />
+                  </svg>
+                </span>
+              }
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+}

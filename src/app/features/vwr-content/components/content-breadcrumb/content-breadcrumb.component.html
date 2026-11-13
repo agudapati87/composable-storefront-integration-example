@@ -1,0 +1,16 @@
+@if (trail$ | async; as trail) {
+  @if (trail.crumbs.length || trail.current) {
+    <nav class="breadcrumb" [attr.aria-label]="'common.breadcrumbs' | cxTranslate">
+      <ol class="breadcrumb__list">
+        @for (crumb of trail.crumbs; track crumb.path) {
+          <li class="breadcrumb__item">
+            <a class="breadcrumb__link" [routerLink]="crumb.path"><app-trademark-text [text]="crumb.label" /></a>
+          </li>
+        }
+        @if (trail.current) {
+          <li class="breadcrumb__item" aria-current="page"><app-trademark-text [text]="trail.current" /></li>
+        }
+      </ol>
+    </nav>
+  }
+}

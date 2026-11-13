@@ -22,3 +22,9 @@
 
 // ORDER IMPORTANT: Spartacus styles last
 @import '@spartacus/styles/index';
+
+// VWR theme: tokens first, then per-area overrides (after Spartacus so they win).
+@import 'styles/tokens';
+@import 'styles/overrides/header';
+@import 'styles/overrides/landing-page';
+@import 'styles/overrides/footer';

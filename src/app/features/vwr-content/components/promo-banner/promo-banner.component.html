@@ -1,0 +1,21 @@
+@let promo = promo$ | async;
+@if (promo) {
+  <div class="promo" [class]="'promo--' + promo.variant">
+    @if (promo.media) {
+      <cx-media
+        class="promo__media"
+        [container]="promo.media"
+        [sizesForImgElement]="promo.split ? '(min-width: 992px) 50vw, 100vw' : '(min-width: 768px) 260px, 100vw'"
+      ></cx-media>
+    }
+    <div class="promo__content">
+      <h2 class="promo__headline"><app-trademark-text [text]="promo.headline" /></h2>
+      @if (promo.text) {
+        <p class="promo__text"><app-trademark-text [text]="promo.text" /></p>
+      }
+      @if (promo.cta; as cta) {
+        <app-cta-link [link]="cta.link" [label]="cta.label" [variant]="promo.navy ? 'inverse' : 'primary'" />
+      }
+    </div>
+  </div>
+}

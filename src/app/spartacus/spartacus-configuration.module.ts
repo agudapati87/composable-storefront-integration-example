@@ -54,6 +54,7 @@ import { ContentfulConfig } from '../contentful/root/config/contentful-config';
         environment: environment.contentful.environment,
         deliveryApiUrl: environment.contentful.deliveryApiUrl,
         previewApiUrl: environment.contentful.previewApiUrl,
+        localeMapping: { en: 'en-US' },
         slugMapping: {
           '^organization/units/[a-zA-Z0-9]+$': 'organization/units',
           '^organization/account-summary/details/[a-zA-Z0-9]+$': 'organization/account-summary/details',

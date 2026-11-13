@@ -1,0 +1,26 @@
+@if (list$ | async; as list) {
+  @if (list.teasers.length) {
+    <div class="teasers">
+      @if (list.headline) {
+        <h2 class="teasers__headline"><app-trademark-text [text]="list.headline" /></h2>
+      }
+      <ul class="teasers__list">
+        @for (teaser of list.teasers; track teaser.key) {
+          <li>
+            <a class="teaser" [routerLink]="{ cxRoute: 'product', params: { code: teaser.productCode } } | cxUrl">
+              @if (teaser.media) {
+                <cx-media
+                  class="teaser__media"
+                  [container]="teaser.media"
+                  alt=""
+                  sizesForImgElement="(min-width: 992px) 20vw, (min-width: 576px) 33vw, 50vw"
+                ></cx-media>
+              }
+              <h3 class="teaser__title"><app-trademark-text [text]="teaser.title" /></h3>
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  }
+}

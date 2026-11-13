@@ -44,3 +44,9 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Local Contentful tokens (generated from the Keychain)
+/src/environments/contentful-tokens.local.ts
+
+# Self-signed cert for tools/serve-dist.mjs
+/.cert/

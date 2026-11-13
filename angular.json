@@ -49,7 +49,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/"],
+              "includePaths": ["node_modules/", "src/styles"],
               "sass": {
                 "silenceDeprecations": ["import"]
               }
@@ -88,6 +88,18 @@
                 }
               ]
             },
+            "local-perf": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.local-perf.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "outputHashing": "all"
+            },
             "local": {
               "fileReplacements": [
                 {
@@ -114,6 +126,9 @@
             },
             "local": {
               "buildTarget": "contentful-spartacus-demo:build:local"
+            },
+            "local-perf": {
+              "buildTarget": "contentful-spartacus-demo:build:local-perf"
             }
           },
           "defaultConfiguration": "local"
@@ -151,7 +166,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["node_modules/"]
+              "includePaths": ["node_modules/", "src/styles"]
             },
             "karmaConfig": "karma.conf.js"
           }
@@ -166,7 +181,8 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@angular-eslint/schematics"]
+    "schematicCollections": ["@angular-eslint/schematics"],
+    "analytics": "7130af8a-2f96-4be7-af52-251e34220451"
   },
   "schematics": {
     "@schematics/angular:component": {

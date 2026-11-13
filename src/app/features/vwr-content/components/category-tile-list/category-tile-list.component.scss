@@ -1,0 +1,118 @@
+@use 'breakpoints' as bp;
+
+:host {
+  display: block;
+  padding: 0 var(--vwr-gutter);
+}
+
+.tiles {
+  max-width: var(--vwr-content-max);
+  margin: 0 auto;
+}
+
+.tiles__headline {
+  margin: 0 0 var(--vwr-space-4);
+  color: var(--vwr-color-navy);
+  font-family: var(--vwr-font-heading);
+  font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem);
+  font-weight: 700;
+}
+
+// 2 columns on phones, 3 on tablets, 5 from 992 px (as on vwr.com).
+.tiles__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--vwr-space-5) var(--vwr-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@include bp.up(sm) {
+  .tiles__list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@include bp.up(lg) {
+  .tiles__list {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--vwr-space-4);
+  }
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--vwr-space-3);
+  color: var(--vwr-color-link);
+  text-decoration: none;
+
+  &:hover .tile__title {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--vwr-color-focus);
+    outline-offset: 4px;
+  }
+}
+
+// The images already contain the gray ring; this keeps them round and sized while loading.
+.tile__media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  overflow: hidden;
+
+  ::ng-deep img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+.tile__title {
+  margin: 0;
+  color: inherit;
+  font-family: var(--vwr-font-body);
+  font-size: clamp(1.125rem, 0.9rem + 0.8vw, 1.5rem);
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+// Same look as app-cta-link, but not a separate link (the whole tile is one).
+.tile__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--vwr-space-2);
+  min-height: 2.5rem;
+  padding: var(--vwr-space-1) var(--vwr-space-2) var(--vwr-space-1) var(--vwr-space-3);
+  border-radius: 4px 999px 999px 4px;
+  background: var(--vwr-color-navy);
+  color: var(--vwr-color-white);
+  font-family: var(--vwr-font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.tile__cta-icon {
+  width: 1.375rem;
+  height: 1.375rem;
+
+  circle {
+    fill: var(--vwr-color-sky);
+  }
+
+  path {
+    fill: none;
+    stroke: var(--vwr-color-navy);
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}

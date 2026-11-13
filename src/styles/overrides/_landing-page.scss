@@ -1,0 +1,34 @@
+// LandingPage2Template as on vwr.com: every section full width and stacked (Spartacus puts
+// Section2A/2B side by side and colors Section4). Components handle their own inner width.
+cx-page-layout.LandingPage2Template {
+  display: block;
+  max-width: none;
+  padding-bottom: var(--vwr-space-6);
+
+  // :is(...) matches the specificity of Spartacus' per-slot rules (e.g. cx-page-slot.Section1).
+  cx-page-slot,
+  cx-page-slot:is(.Section1, .SubHeroBreadcrumb, .Section2A, .Section2B, .Section2C, .Section3, .Section4, .Section5) {
+    display: block;
+    max-width: none;
+    margin: 0;
+    color: inherit;
+    --cx-flex-basis: 100%;
+
+    + cx-page-slot {
+      margin-top: var(--vwr-space-6);
+    }
+
+    &.SubHeroBreadcrumb {
+      margin-top: var(--vwr-space-2);
+    }
+  }
+
+  // Rich text sections get the same content width as the other components.
+  cx-page-slot.Section2B app-rich-text {
+    // Padding inside the max width, so the text lines up with the other sections.
+    max-width: calc(var(--vwr-content-max) + 2 * var(--vwr-gutter));
+    margin: 0 auto;
+    padding: 0 var(--vwr-gutter);
+    color: var(--vwr-color-navy);
+  }
+}

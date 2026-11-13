@@ -1,0 +1,117 @@
+// Footer as on vwr.com: light gray; about text and logo on the left, link columns on the right,
+// copyright notice under a rule. Spartacus' default is a navy footer with white links.
+footer {
+  // Spartacus paints the footer navigation with this variable.
+  --cx-color-background-dark: transparent;
+  background: var(--vwr-color-footer);
+  color: var(--vwr-color-muted);
+
+  cx-page-layout.footer {
+    max-width: none;
+    background: transparent;
+    color: inherit;
+  }
+
+  cx-page-slot.Footer {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--vwr-space-4);
+    max-width: none;
+    padding: var(--vwr-space-5) var(--vwr-gutter) var(--vwr-space-3);
+
+    @include media-breakpoint-up(lg) {
+      grid-template-columns: minmax(0, 37rem) minmax(0, 1fr);
+      grid-template-rows: auto 1fr;
+      column-gap: var(--vwr-space-7);
+      padding-top: var(--vwr-space-5);
+    }
+
+    > * {
+      // Spartacus gives slot children a flex-basis; the grid places them instead.
+      max-width: none;
+      margin: 0;
+    }
+
+    app-rich-text {
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+
+    // The notice ("© Avantor, Inc."), which the CMS bridge emits after the footer navigation.
+    cx-footer-navigation + app-rich-text {
+      grid-column: 1 / -1;
+      margin-top: var(--vwr-space-4);
+      padding-top: var(--vwr-space-3);
+      border-top: 1px solid var(--vwr-color-muted);
+      font-size: 0.75rem;
+    }
+
+    cx-banner {
+      align-self: start;
+      width: 18.75rem;
+      max-width: 100%;
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    cx-footer-navigation {
+      @include media-breakpoint-up(lg) {
+        grid-column: 2;
+        grid-row: 1 / span 2;
+      }
+    }
+  }
+
+  cx-footer-navigation {
+    background: transparent;
+
+    cx-navigation-ui {
+      display: block;
+      padding: 0;
+      background: transparent;
+      color: inherit;
+
+      // Link groups: 2 columns on phones, 3 from 768 px (two rows of three, as on vwr.com).
+      > nav > ul {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--vwr-space-4);
+        margin: 0;
+
+        @include media-breakpoint-up(md) {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        > li {
+          margin: 0;
+        }
+      }
+
+      span,
+      h5,
+      .childs > li > span {
+        color: var(--vwr-color-muted);
+        font-family: var(--vwr-font-heading);
+        font-size: 1rem;
+        font-weight: 700;
+        text-transform: none;
+      }
+
+      a {
+        padding: var(--vwr-space-1) 0;
+        color: var(--vwr-color-link);
+        font-size: 0.875rem;
+        font-weight: 400;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
